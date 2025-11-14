@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Registro - ShopOnline{% endblock %}
+
+{% block content %}
+<div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+        <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Crear Cuenta</h2>
+        
+        <form method="POST" action="{{ url_for('main.registro') }}">
+            {{ form.hidden_tag() }}
+            
+            <!-- Nombre y Apellido en misma fila -->
+            <div class="flex max-w-[480px] gap-4 px-4 py-3">
+                <label class="flex flex-col flex-1">
+                    {{ form.nombre(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#1380ec] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Nombre"
+                    ) }}
+                    {% if form.nombre.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ form.nombre.errors[0] }}</span>
+                    {% endif %}
+                </label>
+                
+                <label class="flex flex-col flex-1">
+                    {{ form.apellido(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#1380ec] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Apellido"
+                    ) }}
+                    {% if form.apellido.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ form.apellido.errors[0] }}</span>
+                    {% endif %}
+                </label>
+            </div>
+            
+            <!-- Email -->
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                    {{ form.email(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#1380ec] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Correo electrónico"
+                    ) }}
+                    {% if form.email.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ form.email.errors[0] }}</span>
+                    {% endif %}
+                </label>
+            </div>
+            
+            <!-- Contraseña -->
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                    {{ form.contraseña(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#1380ec] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Contraseña"
+                    ) }}
+                    {% if form.contraseña.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ form.contraseña.errors[0] }}</span>
+                    {% endif %}
+                </label>
+            </div>
+            
+            <!-- Confirmar Contraseña -->
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                    {{ form.confirmar_contraseña(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#1380ec] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Confirmar contraseña"
+                    ) }}
+                    {% if form.confirmar_contraseña.errors %}
+                        <span class="text-red-500 text-sm mt-1">{{ form.confirmar_contraseña.errors[0] }}</span>
+                    {% endif %}
+                </label>
+            </div>
+            
+            <div class="flex px-4 py-3">
+                <button
+                    type="submit"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 flex-1 bg-[#1380ec] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+                >
+                    <span class="truncate">Crear Cuenta</span>
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-[#617589] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">
+            ¿Ya tienes cuenta? 
+            <a href="{{ url_for('main.login') }}" class="text-[#1380ec] font-medium">Inicia sesión aquí</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión - ShopOnline{% endblock %}
+
+{% block content %}
+<div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+        <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Iniciar Sesión</h2>
+        
+        <form method="POST" action="{{ url_for('main.login') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                    {{ form.email(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Correo electrónico"
+                    ) }}
+                </label>
+            </div>
+            
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                    {{ form.contraseña(
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal",
+                        placeholder="Contraseña"
+                    ) }}
+                </label>
+            </div>
+            
+            <div class="flex px-4 py-3">
+                <button
+                    type="submit"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 flex-1 bg-[#1380ec] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+                >
+                    <span class="truncate">Iniciar Sesión</span>
+                </button>
+            </div>
+        </form>
+        <p class="text-[#617589] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">
+        </p>
+    </div>
+</div>
+{% endblock %}

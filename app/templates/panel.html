@@ -1,0 +1,647 @@
+{% extends "base.html" %} {% block title %}Panel Administrador - ShopOnline{%
+endblock %} {% block content %}
+<div class="gap-1 px-6 flex flex-1 justify-center py-5">
+  <!-- Sidebar -->
+  <div class="layout-content-container flex flex-col w-80">
+    <div
+      class="flex h-full min-h-[700px] flex-col justify-between bg-white p-4"
+    >
+      <div class="flex flex-col gap-4">
+        <h1 class="text-[#111418] text-base font-medium leading-normal">
+          Panel de administrador
+        </h1>
+        <div class="flex flex-col gap-2">
+          <!-- Productos -->
+          <div
+            class="menu-item flex items-center gap-3 px-3 py-2 bg-[#f0f2f4] rounded cursor-pointer"
+            onclick="mostrarSeccion('seccion-productos')"
+          >
+            <div
+              class="text-[#111418]"
+              data-icon="Package"
+              data-size="24px"
+              data-weight="fill"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24px"
+                height="24px"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.35,44L178.57,92.29l-80.35-44Zm0,88L47.65,76,81.56,57.43l80.35,44Zm88,55.85h0l-80,43.79V133.83l32-17.51V152a8,8,0,0,0,16,0V107.56l32-17.51v85.76Z"
+                ></path>
+              </svg>
+            </div>
+            <p class="text-[#111418] text-sm font-medium leading-normal">
+              Productos
+            </p>
+          </div>
+
+          <!-- Categorías -->
+          <div
+            class="menu-item flex items-center gap-3 px-3 py-2 cursor-pointer"
+            onclick="mostrarSeccion('seccion-categorias')"
+          >
+            <div
+              class="text-[#111418]"
+              data-icon="Tag"
+              data-size="24px"
+              data-weight="regular"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24px"
+                height="24px"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM48,48h84.69L128,68.69,107.31,48Zm16,52a12,12,0,1,1,12,12A12,12,0,0,1,64,100Zm132.69,95.32L128,172.69,147.31,192,192,147.31,212.69,168Z"
+                ></path>
+              </svg>
+            </div>
+            <p class="text-[#111418] text-sm font-medium leading-normal">
+              Categorías
+            </p>
+          </div>
+
+          <!-- Clientes -->
+          <div
+            class="menu-item flex items-center gap-3 px-3 py-2 cursor-pointer"
+            onclick="mostrarSeccion('seccion-clientes')"
+          >
+            <div
+              class="text-[#111418]"
+              data-icon="Users"
+              data-size="24px"
+              data-weight="regular"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24px"
+                height="24px"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"
+                ></path>
+              </svg>
+            </div>
+            <p class="text-[#111418] text-sm font-medium leading-normal">
+              Clientes
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+    <!-- Sección de Productos -->
+    <div id="seccion-productos" class="seccion-contenido">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p
+          class="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72"
+        >
+          Productos ({{ productos|length }})
+        </p>
+        <button
+          onclick="abrirModal()"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#1380ec] text-white text-sm font-medium leading-normal"
+        >
+          <span class="truncate">Añadir producto</span>
+        </button>
+      </div>
+
+      <div class="px-4 py-3">
+        <label class="flex flex-col min-w-40 h-12 w-full">
+          <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+            <div
+              class="text-[#617589] flex border-none bg-[#f0f2f4] items-center justify-center pl-4 rounded-l-lg border-r-0"
+              data-icon="MagnifyingGlass"
+              data-size="24px"
+              data-weight="regular"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24px"
+                height="24px"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              placeholder="Buscar productos"
+              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] focus:border-none h-full placeholder:text-[#617589] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+              value=""
+            />
+          </div>
+        </label>
+      </div>
+
+      <!-- Tabla de Productos -->
+      <div class="px-4 py-3">
+        <div
+          class="flex overflow-hidden rounded-lg border border-[#dbe0e6] bg-white"
+        >
+          <table class="flex-1">
+            <thead>
+              <tr class="bg-white">
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[250px] text-sm font-medium leading-normal"
+                >
+                  Producto
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[120px] text-sm font-medium leading-normal"
+                >
+                  Precio
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[100px] text-sm font-medium leading-normal"
+                >
+                  Stock
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[150px] text-sm font-medium leading-normal"
+                >
+                  Categoría
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[100px] text-sm font-medium leading-normal"
+                >
+                  Estado
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[120px] text-sm font-medium leading-normal"
+                >
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for producto in productos %}
+              <tr class="border-t border-t-[#dbe0e6]">
+                <td
+                  class="h-[72px] px-4 py-2 w-[250px] text-[#111418] text-sm font-normal leading-normal"
+                >
+                  {{ producto.nombre }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[120px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  ${{ "%.2f"|format(producto.precio) }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[100px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {{ producto.stock }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[150px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {% if producto.categoria %} {{ producto.categoria.nombre }} {%
+                  else %} Sin categoría {% endif %}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[100px] text-sm font-normal leading-normal"
+                >
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-default items-center justify-center overflow-hidden rounded-lg h-8 px-4 {% if producto.stock > 0 %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-sm font-medium leading-normal w-full"
+                  >
+                    <span class="truncate"
+                      >{% if producto.stock > 0 %}En stock{% else %}Sin stock{%
+                      endif %}</span
+                    >
+                  </button>
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[120px] text-sm font-normal leading-normal"
+                >
+                  <div class="flex gap-2">
+                    <!-- Botón Editar -->
+                    <!-- <button
+                      type="button"
+                      onclick="editarProducto({{ producto.id }})"
+                      class="flex items-center justify-center rounded-lg h-8 px-3 bg-blue-100 text-blue-800 text-sm font-medium hover:bg-blue-200 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"
+                        ></path>
+                      </svg>
+                    </button> -->
+
+                    <!-- Botón Eliminar -->
+                    <form
+                      method="POST"
+                      action="{{ url_for('main.eliminar_producto', producto_id=producto.id) }}"
+                      class="inline"
+                      onsubmit="return confirmarEliminacion()"
+                    >
+                      <button
+                        type="submit"
+                        class="flex items-center justify-center rounded-lg h-8 px-3 bg-red-100 text-red-800 text-sm font-medium hover:bg-red-200 transition-colors"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
+                        >
+                          <path
+                            d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"
+                          ></path>
+                        </svg>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Categorías -->
+    <div id="seccion-categorias" class="seccion-contenido hidden">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p
+          class="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72"
+        >
+          Categorías ({{ categorias|length }})
+        </p>
+        <button
+          onclick="abrirModalCategoria()"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#1380ec] text-white text-sm font-medium leading-normal"
+        >
+          <span class="truncate">Añadir categoría</span>
+        </button>
+      </div>
+
+      <!-- Tabla de Categorías -->
+      <div class="px-4 py-3">
+        <div
+          class="flex overflow-hidden rounded-lg border border-[#dbe0e6] bg-white"
+        >
+          <table class="flex-1">
+            <thead>
+              <tr class="bg-white">
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[300px] text-sm font-medium leading-normal"
+                >
+                  Nombre
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[400px] text-sm font-medium leading-normal"
+                >
+                  Descripción
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[200px] text-sm font-medium leading-normal"
+                >
+                  Productos
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for categoria in categorias %}
+              <tr class="border-t border-t-[#dbe0e6]">
+                <td
+                  class="h-[72px] px-4 py-2 w-[300px] text-[#111418] text-sm font-normal leading-normal"
+                >
+                  {{ categoria.nombre }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[400px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {{ categoria.descripcion or 'Sin descripción' }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[200px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {{ categoria.productos|length }} productos
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Clientes -->
+    <div id="seccion-clientes" class="seccion-contenido hidden">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p
+          class="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72"
+        >
+          Clientes ({{ usuarios|length }})
+        </p>
+      </div>
+
+      <!-- Tabla de Usuarios -->
+      <div class="px-4 py-3">
+        <div
+          class="flex overflow-hidden rounded-lg border border-[#dbe0e6] bg-white"
+        >
+          <table class="flex-1">
+            <thead>
+              <tr class="bg-white">
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[250px] text-sm font-medium leading-normal"
+                >
+                  Nombre
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[250px] text-sm font-medium leading-normal"
+                >
+                  Email
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[150px] text-sm font-medium leading-normal"
+                >
+                  Fecha Registro
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-[#111418] w-[150px] text-sm font-medium leading-normal"
+                >
+                  Tipo
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr class="border-t border-t-[#dbe0e6]">
+                <td
+                  class="h-[72px] px-4 py-2 w-[250px] text-[#111418] text-sm font-normal leading-normal"
+                >
+                  {{ usuario.nombre }} {{ usuario.apellido }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[250px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {{ usuario.email }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[150px] text-[#617589] text-sm font-normal leading-normal"
+                >
+                  {{ usuario.fecha_creacion.strftime('%d/%m/%Y') }}
+                </td>
+                <td
+                  class="h-[72px] px-4 py-2 w-[150px] text-sm font-normal leading-normal"
+                >
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-default items-center justify-center overflow-hidden rounded-lg h-8 px-4 {% if usuario.administrador %}bg-purple-100 text-purple-800{% else %}bg-blue-100 text-blue-800{% endif %} text-sm font-medium leading-normal w-full"
+                  >
+                    <span class="truncate"
+                      >{% if usuario.administrador %}Administrador{% else
+                      %}Cliente{% endif %}</span
+                    >
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para agregar producto -->
+<div
+  id="modalProducto"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+>
+  <div class="bg-white rounded-lg w-full max-w-2xl mx-4">
+    <div
+      class="flex justify-between items-center p-6 border-b border-[#dbe0e6]"
+    >
+      <h3 class="text-[#111418] text-xl font-bold">Agregar Nuevo Producto</h3>
+      <button
+        onclick="cerrarModal()"
+        class="text-[#617589] hover:text-[#111418]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 256 256"
+        >
+          <path
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('main.panel') }}"
+      enctype="multipart/form-data"
+      class="p-6"
+    >
+      {{ form.hidden_tag() }}
+
+      <div class="space-y-4">
+        <!-- Nombre -->
+        <div>
+          <label class="text-[#111418] text-sm font-medium block mb-2"
+            >Nombre del Producto</label
+          >
+          {{ form.nombre( class="w-full rounded-lg border border-[#dbe0e6]
+          bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2
+          focus:ring-[#1380ec] focus:border-transparent", placeholder="Ej:
+          Camiseta de algodón" ) }} {% if form.nombre.errors %}
+          <span class="text-red-500 text-sm">{{ form.nombre.errors[0] }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label class="text-[#111418] text-sm font-medium block mb-2"
+            >Descripción</label
+          >
+          {{ form.descripcion( class="w-full rounded-lg border border-[#dbe0e6]
+          bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2
+          focus:ring-[#1380ec] focus:border-transparent", rows="3",
+          placeholder="Descripción del producto..." ) }}
+        </div>
+
+        <!-- Precio y Stock -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-[#111418] text-sm font-medium block mb-2"
+              >Precio ($)</label
+            >
+            {{ form.precio( class="w-full rounded-lg border border-[#dbe0e6]
+            bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2
+            focus:ring-[#1380ec] focus:border-transparent", placeholder="0.00",
+            step="0.01" ) }} {% if form.precio.errors %}
+            <span class="text-red-500 text-sm"
+              >{{ form.precio.errors[0] }}</span
+            >
+            {% endif %}
+          </div>
+
+          <div>
+            <label class="text-[#111418] text-sm font-medium block mb-2"
+              >Stock</label
+            >
+            {{ form.stock( class="w-full rounded-lg border border-[#dbe0e6]
+            bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2
+            focus:ring-[#1380ec] focus:border-transparent", placeholder="0" ) }}
+            {% if form.stock.errors %}
+            <span class="text-red-500 text-sm">{{ form.stock.errors[0] }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Categoría e Imagen -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-[#111418] text-sm font-medium block mb-2"
+              >Categoría</label
+            >
+            {{ form.categoria_id( class="w-full rounded-lg border
+            border-[#dbe0e6] bg-white px-4 py-3 text-[#111418]
+            focus:outline-none focus:ring-2 focus:ring-[#1380ec]
+            focus:border-transparent" ) }}
+          </div>
+
+          <div>
+            <label class="text-[#111418] text-sm font-medium block mb-2"
+              >Imagen</label
+            >
+            {{ form.imagen( class="w-full rounded-lg border border-[#dbe0e6]
+            bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2
+            focus:ring-[#1380ec] focus:border-transparent", accept="image/*" )
+            }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex gap-3 justify-end mt-6 pt-4 border-t border-[#dbe0e6]">
+        <button
+          type="button"
+          onclick="cerrarModal()"
+          class="flex cursor-pointer items-center justify-center rounded-lg h-10 px-6 bg-[#f0f2f4] text-[#111418] text-sm font-medium"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="flex cursor-pointer items-center justify-center rounded-lg h-10 px-6 bg-[#1380ec] text-white text-sm font-medium"
+        >
+          Guardar Producto
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para agregar categoría -->
+<div
+  id="modalCategoria"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+>
+  <div class="bg-white rounded-lg w-full max-w-md mx-4">
+    <div
+      class="flex justify-between items-center p-6 border-b border-[#dbe0e6]"
+    >
+      <h3 class="text-[#111418] text-xl font-bold">Agregar Nueva Categoría</h3>
+      <button
+        onclick="cerrarModalCategoria()"
+        class="text-[#617589] hover:text-[#111418]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 256 256"
+        >
+          <path
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <form
+      method="POST"
+      action="{{ url_for('main.agregar_categoria') }}"
+      class="p-6"
+    >
+      <div class="space-y-4">
+        <!-- Nombre -->
+        <div>
+          <label class="text-[#111418] text-sm font-medium block mb-2"
+            >Nombre de la Categoría</label
+          >
+          <input
+            type="text"
+            name="nombre"
+            class="w-full rounded-lg border border-[#dbe0e6] bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2 focus:ring-[#1380ec] focus:border-transparent"
+            placeholder="Ej: Ropa, Electrónicos"
+            required
+          />
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label class="text-[#111418] text-sm font-medium block mb-2"
+            >Descripción</label
+          >
+          <textarea
+            name="descripcion"
+            class="w-full rounded-lg border border-[#dbe0e6] bg-white px-4 py-3 text-[#111418] focus:outline-none focus:ring-2 focus:ring-[#1380ec] focus:border-transparent"
+            rows="3"
+            placeholder="Descripción de la categoría..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex gap-3 justify-end mt-6 pt-4 border-t border-[#dbe0e6]">
+        <button
+          type="button"
+          onclick="cerrarModalCategoria()"
+          class="flex cursor-pointer items-center justify-center rounded-lg h-10 px-6 bg-[#f0f2f4] text-[#111418] text-sm font-medium"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="flex cursor-pointer items-center justify-center rounded-lg h-10 px-6 bg-[#1380ec] text-white text-sm font-medium"
+        >
+          Guardar Categoría
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/panel.js') }}"></script>
+{% endblock %}

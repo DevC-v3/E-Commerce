@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="px-40 py-10">
+    <h1 class="text-3xl font-bold text-center mb-8">Bienvenido a ShopOnline</h1>
+    <p class="text-center text-gray-600">La mejor tienda online</p>
+    
+    <div class="text-center mt-8">
+        <a href="{{ url_for('main.login') }}" 
+           class="bg-[#1380ec] text-white px-6 py-3 rounded-lg font-bold">
+            Ir al Login
+        </a>
+    </div>
+</div>
+{% endblock %}
