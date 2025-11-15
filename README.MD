@@ -11,7 +11,6 @@
 - **Gestión de sesiones** - Logout funcional
 
 #### 🎯 Navegación entre Vistas
-```python
 # Rutas principales implementadas
 @main.route('/')              # Página principal
 @main.route('/login')         # Inicio de sesión  
