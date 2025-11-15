@@ -3,19 +3,26 @@
 ## 🚀 Instalación Rápida
 
 ### 1. Clonar y Entrar al Directorio
-```bash
+
+``` bash
 git clone <tu-repositorio>
 cd ecommerce
+```
 
 ### 2. Instalar Dependencias
-```bash
+
+``` bash
 pip install -r requirements.txt
+```
 
 ### 3. Ejecutar la Aplicación
-```bash
+
+``` bash
 python run.py
+```
 
 ### 4. Acceder a la App
-- URL: http://localhost:5000
-- Usuario Admin: admin@tienda.com
-- Contraseña: admin123
+
+-   URL: http://localhost:5000
+-   Usuario Admin: admin@tienda.com
+-   Contraseña: admin123
