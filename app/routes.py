@@ -11,7 +11,15 @@ main = Blueprint('main', __name__)
 # RUTAS PÚBLICAS
 @main.route('/')
 def index():
-    return render_template('index.html')
+    # Obtener productos aleatorios para la sección destacada
+    productos_destacados = Producto.query.order_by(db.func.random()).limit(4).all()
+    return render_template('index.html', productos_destacados=productos_destacados)
+
+@main.route('/producto/<int:producto_id>')
+def detalle_producto(producto_id):
+    """Página de detalle de producto"""
+    producto = Producto.query.get_or_404(producto_id)
+    return render_template('detalle_producto.html', producto=producto)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():

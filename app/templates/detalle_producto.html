@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ producto.nombre }} - ShopSmart{% endblock %}
+
+{% block content %}
+<div class="px-40 flex flex-1 justify-center py-5">
+  <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+    <!-- Migas de pan -->
+    <div class="flex flex-wrap gap-2 p-4">
+      <a class="text-[#617589] text-base font-medium leading-normal" href="{{ url_for('main.index') }}">Inicio</a>
+      <span class="text-[#617589] text-base font-medium leading-normal">/</span>
+      {% if producto.categoria %}
+      <a class="text-[#617589] text-base font-medium leading-normal" href="#">{{ producto.categoria.nombre }}</a>
+      <span class="text-[#617589] text-base font-medium leading-normal">/</span>
+      {% endif %}
+      <span class="text-[#111418] text-base font-medium leading-normal">{{ producto.nombre }}</span>
+    </div>
+
+    <!-- Imagen del producto -->
+    <div class="flex w-full grow bg-white @container p-4">
+      <div class="w-full gap-1 overflow-hidden bg-white @[480px]:gap-2 aspect-[2/3] rounded-lg flex">
+        <div class="w-full aspect-square rounded-lg overflow-hidden bg-gray-100 flex-1">
+          {% if producto.imagen_url %}
+          <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover">
+          {% else %}
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIVSUDyXASoJJkovKkOq_XzMwII9HJXk9sEoxKVUj1XLeDQfG4D5WuXTUERcdi5r7rJdknlf-_171HfWbvxvwrWWjEi-oxBKMvO3-xcYJOgoZSh3ze2MloLNRZQBf7QHm6kp_CKp--VifSxiOnkrb3g6Qk6_BMWhKDkU9GWmpKiJVT8Bhmms_UZiBJiX9omPp4fXZ5X5ATbF9xCOjFEcL-2Nh3t7DJaVmUh-x8W_69HTNZRX3DXX_WTpCBLrUQfwGyeyYwS9b5FqE" alt="{{ producto.nombre }}" class="w-full h-full object-cover">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Información del producto -->
+    <h1 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-3 pt-5">{{ producto.nombre }}</h1>
+    
+    <!-- Descripción -->
+    {% if producto.descripcion %}
+    <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+      {{ producto.descripcion }}
+    </p>
+    {% endif %}
+
+    <!-- Categoría -->
+    {% if producto.categoria %}
+    <p class="text-[#617589] text-sm font-normal leading-normal pb-3 pt-1 px-4">Categoría: {{ producto.categoria.nombre }}</p>
+    {% endif %}
+
+    <!-- Precio -->
+    <p class="text-[#617589] text-sm font-normal leading-normal pb-3 pt-1 px-4">Precio: ${{ "%.2f"|format(producto.precio) }}</p>
+
+    <!-- Stock -->
+    <div class="px-4 py-1">
+      {% if producto.stock > 0 %}
+        <span class="text-green-600 text-sm font-medium">✓ En stock ({{ producto.stock }} disponibles)</span>
+      {% else %}
+        <span class="text-red-600 text-sm font-medium">✗ Agotado</span>
+      {% endif %}
+    </div>
+
+    <!-- Selector de cantidad -->
+    <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+      <label class="flex flex-col min-w-40 flex-1">
+        <select class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 bg-[image:--select-button-svg] placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal">
+          <option value="1">1 unidad</option>
+          <option value="2">2 unidades</option>
+          <option value="3">3 unidades</option>
+          <option value="4">4 unidades</option>
+          <option value="5">5 unidades</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Botón agregar al carrito -->
+    <div class="flex px-4 py-3 justify-start">
+      {% if producto.stock > 0 %}
+      <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1380ec] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+        <span class="truncate">Agregar al Carrito</span>
+      </button>
+      {% else %}
+      <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-400 text-white text-sm font-bold leading-normal tracking-[0.015em]" disabled>
+        <span class="truncate">Producto Agotado</span>
+      </button>
+      {% endif %}
+    </div>
+
+    <!-- Detalles del producto -->
+    <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Detalles del Producto</h2>
+    <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+      <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#dbe0e6] py-5">
+        <p class="text-[#617589] text-sm font-normal leading-normal">Nombre</p>
+        <p class="text-[#111418] text-sm font-normal leading-normal">{{ producto.nombre }}</p>
+      </div>
+      
+      {% if producto.categoria %}
+      <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#dbe0e6] py-5">
+        <p class="text-[#617589] text-sm font-normal leading-normal">Categoría</p>
+        <p class="text-[#111418] text-sm font-normal leading-normal">{{ producto.categoria.nombre }}</p>
+      </div>
+      {% endif %}
+      
+      <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#dbe0e6] py-5">
+        <p class="text-[#617589] text-sm font-normal leading-normal">Precio</p>
+        <p class="text-[#111418] text-sm font-normal leading-normal">${{ "%.2f"|format(producto.precio) }}</p>
+      </div>
+      
+      <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#dbe0e6] py-5">
+        <p class="text-[#617589] text-sm font-normal leading-normal">Stock</p>
+        <p class="text-[#111418] text-sm font-normal leading-normal">{{ producto.stock }} unidades</p>
+      </div>
+      
+      <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#dbe0e6] py-5">
+        <p class="text-[#617589] text-sm font-normal leading-normal">Estado</p>
+        <p class="text-[#111418] text-sm font-normal leading-normal">
+          {% if producto.stock > 0 %}
+            <span class="text-green-600">Disponible</span>
+          {% else %}
+            <span class="text-red-600">Agotado</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
