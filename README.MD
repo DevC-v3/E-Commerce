@@ -12,11 +12,11 @@
 
 #### 🎯 Navegación entre Vistas
 # Rutas principales implementadas
--@main.route('/')              # Página principal
--@main.route('/login')         # Inicio de sesión  
--@main.route('/registro')      # Registro de usuarios
--@main.route('/panel')         # Panel administrativo
--@main.route('/logout')        # Cerrar sesión
+- main.route('/')              # Página principal
+- main.route('/login')         # Inicio de sesión  
+- main.route('/registro')      # Registro de usuarios
+- main.route('/panel')         # Panel administrativo
+- main.route('/logout')        # Cerrar sesión
 
 # Funcionalidades del panel
 - Lista y gestión de productos ✅
