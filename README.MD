@@ -5,7 +5,7 @@
 ### 1. Clonar y Entrar al Directorio
 
 ``` bash
-git clone <tu-repositorio>
+git clone https://github.com/DevC-v3/E-Commerce.git
 cd ecommerce
 ```
 
