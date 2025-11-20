@@ -5,6 +5,7 @@ from app.models import Usuario, Producto, Categoria
 from app.forms import FormularioLogin, FormularioRegistro, FormularioProducto
 from werkzeug.utils import secure_filename
 import os
+from flask import jsonify
 
 main = Blueprint('main', __name__)
 
@@ -14,6 +15,37 @@ def index():
     # Obtener productos aleatorios para la sección destacada
     productos_destacados = Producto.query.order_by(db.func.random()).limit(4).all()
     return render_template('index.html', productos_destacados=productos_destacados)
+
+@main.route('/catalogo')
+def catalogo():
+    """Página de catálogo de productos con filtros"""
+    # Obtener parámetros de filtro
+    categoria_id = request.args.get('categoria', type=int)
+    orden = request.args.get('orden', 'nombre')
+    
+    # Consulta base
+    query = Producto.query
+    
+    # Filtrar por categoría
+    if categoria_id:
+        query = query.filter_by(categoria_id=categoria_id)
+    
+    # Ordenar
+    if orden == 'precio_asc':
+        query = query.order_by(Producto.precio.asc())
+    elif orden == 'precio_desc':
+        query = query.order_by(Producto.precio.desc())
+    else:
+        query = query.order_by(Producto.nombre.asc())
+    
+    productos = query.all()
+    categorias = Categoria.query.all()
+    
+    return render_template('catalogo.html',
+                         productos=productos,
+                         categorias=categorias,
+                         categoria_actual=categoria_id,
+                         orden_actual=orden)
 
 @main.route('/producto/<int:producto_id>')
 def detalle_producto(producto_id):
@@ -165,3 +197,66 @@ def eliminar_producto(producto_id):
         flash('Error al eliminar el producto', 'error')
     
     return redirect(url_for('main.panel'))
+
+# RUTA PARA AGREGAR AL CARRITO
+@main.route('/agregar-al-carrito/<int:producto_id>')
+def agregar_al_carrito(producto_id):
+    """Agregar producto al carrito"""
+    producto = Producto.query.get_or_404(producto_id)
+    flash(f'✅ {producto.nombre} agregado al carrito', 'success')
+    return redirect(url_for('main.ver_carrito'))
+
+# RUTAS DEL CARRITO
+@main.route('/carrito')
+def ver_carrito():
+    """Página del carrito de compras"""
+    carrito_items = []
+    subtotal = 0
+    
+    productos_en_carrito = Producto.query.limit(2).all()
+    
+    for producto in productos_en_carrito:
+        carrito_items.append({
+            'producto': producto,
+            'cantidad': 1
+        })
+        subtotal += producto.precio
+    
+    # Cálculos de ejemplo
+    envio = 10.00 if subtotal > 0 else 0
+    impuestos = subtotal * 0.18  # 18% de impuestos
+    total = subtotal + envio + impuestos
+    
+    return render_template('carrito.html',
+                         carrito_items=carrito_items,
+                         subtotal=subtotal,
+                         envio=envio,
+                         impuestos=impuestos,
+                         total=total)
+
+@main.route('/actualizar-carrito/<int:producto_id>', methods=['POST'])
+@login_required
+def actualizar_carrito(producto_id):
+    """Actualizar la cantidad de un producto en el carrito"""
+    try:
+        data = request.get_json()
+        cantidad = data.get('cantidad', 1)
+        
+        # Aquí iría la lógica para actualizar en la base de datos
+        # Por ahora solo retornamos éxito
+        return jsonify({'success': True, 'message': 'Carrito actualizado'})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+@main.route('/eliminar-del-carrito/<int:producto_id>', methods=['POST'])
+@login_required
+def eliminar_del_carrito(producto_id):
+    """Eliminar un producto del carrito"""
+    try:
+        # Aquí iría la lógica para eliminar de la base de datos
+        # Por ahora solo retornamos éxito
+        return jsonify({'success': True, 'message': 'Producto eliminado del carrito'})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Productos - ShopOnline{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .group\/design-root {
+        font-family: Inter, "Noto Sans", sans-serif;
+    }
+    .producto-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .producto-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="relative flex min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+        <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+            <div class="mx-auto max-w-7xl">
+                <!-- PageHeading & Chips -->
+                <div class="flex flex-col gap-6 mb-8">
+                    <div class="flex flex-wrap justify-between gap-4 items-baseline">
+                        <div class="flex min-w-72 flex-col gap-2">
+                            <p class="text-[#212529] text-4xl font-black leading-tight tracking-[-0.033em]">Nuestros Productos</p>
+                            <p class="text-[#6C757D] text-base font-normal leading-normal">Mostrando {{ productos|length }} productos</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 flex-wrap">
+                        <!-- Filtros como selects funcionales -->
+                        <form method="GET" action="{{ url_for('main.catalogo') }}" class="flex gap-2 flex-wrap">
+                            <button type="button" class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white border border-[#dbe0e6] pl-4 pr-3 hover:bg-gray-50">
+                                <select name="categoria" onchange="this.form.submit()" class="text-[#212529] text-sm font-medium leading-normal bg-transparent border-none focus:outline-none focus:ring-0">
+                                    <option value="">Todas las categorías</option>
+                                    {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" {% if categoria_actual == categoria.id %}selected{% endif %}>
+                                        {{ categoria.nombre }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <span class="material-symbols-outlined text-lg text-gray-500"></span>
+                            </button>
+                            
+                            <button type="button" class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white border border-[#dbe0e6] pl-4 pr-3 hover:bg-gray-50">
+                                <select name="orden" onchange="this.form.submit()" class="text-[#212529] text-sm font-medium leading-normal bg-transparent border-none focus:outline-none focus:ring-0">
+                                    <option value="nombre">Ordenar por: Nombre</option>
+                                    <option value="precio_asc">Precio: Menor a Mayor</option>
+                                    <option value="precio_desc">Precio: Mayor a Menor</option>
+                                </select>
+                                <span class="material-symbols-outlined text-lg text-gray-500"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ImageGrid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                    {% for producto in productos %}
+                    <a href="{{ url_for('main.detalle_producto', producto_id=producto.id) }}" 
+                       class="flex flex-col group relative overflow-hidden rounded-lg producto-card border border-gray-200 hover:border-gray-300">
+                        <div class="relative w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg bg-gray-100">
+                            {% if producto.imagen_url %}
+                                <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" 
+                                     class="w-full h-full object-cover rounded-lg">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
+                                    <span class="material-symbols-outlined text-4xl text-gray-400">image</span>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Overlay hover -->
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                            
+                            
+                            <!-- Etiquetas de estado -->
+                            {% if producto.stock == 0 %}
+                                <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">Agotado</span>
+                            {% elif producto.stock < 5 %}
+                                <span class="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">Últimas</span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Información del producto -->
+                        <div class="p-3 flex-1 flex flex-col">
+                            <p class="text-[#212529] text-sm font-medium leading-normal truncate mb-1">{{ producto.nombre }}</p>
+                            <p class="text-[#6C757D] text-sm font-normal leading-normal mb-2">S/ {{ "%.2f"|format(producto.precio) }}</p>
+                            {% if producto.descripcion %}
+                                <p class="text-[#6C757D] text-xs font-normal leading-normal truncate mt-auto">{{ producto.descripcion }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% else %}
+                    <!-- Estado vacío -->
+                    <div class="col-span-full text-center py-12">
+                        <span class="material-symbols-outlined text-6xl text-gray-400 mb-4">inventory_2</span>
+                        <p class="text-[#6C757D] text-lg">No hay productos disponibles</p>
+                        <a href="{{ url_for('main.catalogo') }}" class="text-[#007BFF] hover:text-[#0056b3] text-sm font-medium mt-2 inline-block">
+                            Ver todos los productos
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="fixed bottom-6 right-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#007BFF] text-white shadow-lg hover:bg-[#007BFF]/90 transition-colors z-50" 
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <span class="material-symbols-outlined text-2xl"></span>
+    </button>
+</div>
+
+<!-- Mensajes Flash -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="fixed top-20 right-4 z-50 space-y-2">
+            {% for message in messages %}
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<script>
+// Configuración de Tailwind para coincidir exactamente
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#007BFF",
+            },
+            fontFamily: {
+                "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem", 
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+        },
+    },
+}
+</script>
+{% endblock %}
