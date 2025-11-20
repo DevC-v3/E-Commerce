@@ -25,4 +25,8 @@ python run.py
 
 -   URL: http://localhost:5000
 -   Usuario Admin: admin@tienda.com
+<<<<<<< HEAD
 -   Contraseña: admin123
+=======
+-   Contraseña: admin123
+>>>>>>> a2d434c8f27c1b12521bcb561eed6686667082bd
