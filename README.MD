@@ -1,26 +1,28 @@
-# HITO 1
+# 🛍️ ShopSmart - Ecommerce
 
-## 📋 Estado Actual del Desarrollo
+## 🚀 Instalación Rápida
 
-### ✅ Funcionalidades Implementadas
+### 1. Clonar y Entrar al Directorio
 
-#### 🔐 Sistema de Autenticación
-- **Registro de usuarios** - Formulario completo con validación
-- **Inicio de sesión** - Autenticación con Flask-Login
-- **Control de acceso** - Usuarios normales vs administradores
-- **Gestión de sesiones** - Logout funcional
+``` bash
+git clone https://github.com/DevC-v3/E-Commerce.git
+cd ecommerce
+```
 
-#### 🎯 Navegación entre Vistas
-# Rutas principales implementadas
-- main.route('/')              # Página principal
-- main.route('/login')         # Inicio de sesión  
-- main.route('/registro')      # Registro de usuarios
-- main.route('/panel')         # Panel administrativo
-- main.route('/logout')        # Cerrar sesión
+### 2. Instalar Dependencias
 
-# Funcionalidades del panel
-- Lista y gestión de productos ✅
-- Agregar nuevos productos (modal) ✅
-- Eliminar productos con confirmación ✅
-- Gestión de categorías ✅
-- Vista de clientes registrados ✅
+``` bash
+pip install -r requirements.txt
+```
+
+### 3. Ejecutar la Aplicación
+
+``` bash
+python run.py
+```
+
+### 4. Acceder a la App
+
+-   URL: http://localhost:5000
+-   Usuario Admin: admin@tienda.com
+-   Contraseña: admin123
